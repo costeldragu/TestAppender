@@ -1,0 +1,7 @@
+<configuration>
+    <appender name="static-appender" class="com.mdc.services.testutils.TestAppenderS" />
+
+    <root level="trace">
+        <appender-ref ref="static-appender" />
+    </root>
+</configuration>
