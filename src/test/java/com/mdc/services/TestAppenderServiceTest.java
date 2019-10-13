@@ -4,6 +4,7 @@ import com.mdc.services.testutils.TestAppender;
 import com.mdc.services.testutils.TestAppenderS;
 import org.apache.log4j.Logger;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,14 +26,14 @@ public class TestAppenderServiceTest {
 
     TestAppenderService testAppenderService = new TestAppenderService();
 
-    @Rule
-    public final OutputCapture outputCapture = new OutputCapture();
+    private int cunkStart;
+
+    @ClassRule
+    public final static OutputCapture outputCapture = new OutputCapture();
 
     @Before
     public void setUp() {
-        Logger.getRootLogger().removeAllAppenders();
-
-        Logger.getRootLogger().addAppender(new TestAppender());
+        cunkStart = outputCapture.toString().length();
 
     }
 
@@ -41,7 +42,11 @@ public class TestAppenderServiceTest {
         String expected = "This is my message";
         String actual = testAppenderService.getMessage();
         assertEquals(expected,actual);
+
+        String logs = outputCapture.toString().substring(cunkStart);
+
+
         outputCapture.expect(containsString("The message was returned"));
-        assertTrue(TestAppenderS.containMessage("The message was returned"));
+//        assertTrue(TestAppenderS.containMessage("The message was returned"));
     }
 }
